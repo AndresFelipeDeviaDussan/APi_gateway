@@ -1,16 +1,35 @@
-# This is a sample Python script.
+from flask import Flask, request
+from flask_cors import CORS
+from flask_jwt_extended import (JWTManager)
+from waitress import serve
 
-# Press Mayús+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import json
 
-# HOla de nuevo
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+app = Flask(__name__)
+app.config["JWT_SECRET_KEY"] = "trabajofinal"
+cors = CORS(app)
+jwt = JWTManager(app)
 
 
-# Press the green button in the gutter to run the script.
+@app.route("/", methods=['GET'])
+def home():
+    response = {"message": "Welcome to the political API gateway G11...."}
+    return response
+
+
+# Config and execute app
+def load_file_config():
+    """
+    Gets the data from the "config.json"
+    :return:
+    """
+    with open("config.json", "r") as file_:
+        data = json.load(file_)
+    return data
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    data_config = load_file_config()
+    print("API gateway Server Running: http://" + data_config.get("url-api-gateway") + ":"
+          + str(data_config.get("port")))
+    serve(app, host=data_config.get("url-api-gateway"), port=data_config.get("port"))
