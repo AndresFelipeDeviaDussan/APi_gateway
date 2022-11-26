@@ -39,7 +39,7 @@ def validate_grant(endpoints: str, methods: str, id_rol: str):
     :return:
     """
     data_confing = load_file_config()
-    url = data_confing.get('http://127.0.0.1:8080') + f'/rol/validate/{id_rol}'  # The 'f' is to concatenate the str
+    url = data_confing.get('url-backend-security') + f'/rol/validate/{id_rol}'  # The 'f' is to concatenate the str
     body = {
         "url": endpoints,
         "methods": methods

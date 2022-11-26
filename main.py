@@ -7,11 +7,25 @@ from waitress import serve
 
 import requests
 import utils
+from tables_blueprints import table_blueprints
+from political_parties_blueprints import political_parties_blueprints
+from candidate_blueprints import candidate_blueprints
+from results_blueprints import results_blueprints
+from user_blueprints import user_blueprints
+from rol_blueprints import rol_blueprints
+from permission_blueprints import permission_blueprints
 
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = "trabajofinal"
 cors = CORS(app)
 jwt = JWTManager(app)
+app.register_blueprint(table_blueprints)
+app.register_blueprint(political_parties_blueprints)
+app.register_blueprint(candidate_blueprints)
+app.register_blueprint(results_blueprints)
+app.register_blueprint(user_blueprints)
+app.register_blueprint(rol_blueprints)
+app.register_blueprint(permission_blueprints)
 
 
 @app.before_request
@@ -44,7 +58,7 @@ def login() -> tuple:
     if response.status_code == 200:
         user_logged = response.json()
         expires = timedelta(days=1)
-        access_token = create_access_token(identity=user, expires_delta=expires)
+        access_token = create_access_token(identity=user_logged, expires_delta=expires)
         return {"token": access_token, "user_id": user_logged.get('id')},200
     else:
         return {"message": "Access denied"}, 401
