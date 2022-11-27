@@ -7,7 +7,7 @@ data_confing = load_file_config()
 url_base = data_confing.get('url-backend-security') + "/permission"
 
 
-@permission_blueprints.route("/permission", methods=['GET'])
+@permission_blueprints.route("/permissions", methods=['GET'])
 def get_all_permissions() -> dict:
     url = url_base + "/all"
     response = requests.get(url, headers=HEADERS)

@@ -7,7 +7,7 @@ data_confing = load_file_config()
 url_base = data_confing.get('url-backend-security') + "/rol"
 
 
-@rol_blueprints.route("/rol", methods=['GET'])
+@rol_blueprints.route("/rols", methods=['GET'])
 def get_all_roles() -> dict:
     url = url_base + "/all"
     response = requests.get(url, headers=HEADERS)

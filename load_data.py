@@ -27,3 +27,18 @@ print("="*30)
 The permissions that we are going to define are those that authorize access to the API Gateway
 """
 # Basic permission related to admin
+modules = ['table', 'candidate', 'political_parties', 'result', 'user', 'rol']
+endpoints = [('s', 'GET'), ('/?', 'GET'), ('/insert', 'POST'), ('/update/?', 'PUT'), ('/delete/?', 'DELETE')]
+url = f'{security_backend}/permission/insert'
+for module in modules:
+    for endpoint, method in endpoints:
+        permission_url = f'/{module}{endpoint}'
+        body = {
+            "url": permission_url,
+            "method": method
+        }
+        response = requests.post(url, headers=headers, json=body)
+        print(response.json())
+        permission = response.json()
+        url_relation = f'{security_backend}/rol/update/{admin.get("idRol")}/add_permission/{permission.get("id")}'
+        response = requests.put(url_relation, headers=headers)

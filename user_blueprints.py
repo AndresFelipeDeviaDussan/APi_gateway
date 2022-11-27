@@ -7,7 +7,7 @@ data_confing = load_file_config()
 url_base = data_confing.get('url-backend-security') + "/user"
 
 
-@user_blueprints.route("/user", methods=['GET'])
+@user_blueprints.route("/users", methods=['GET'])
 def get_all_users() -> dict:
     url = url_base + "/all"
     response = requests.get(url, headers=HEADERS)

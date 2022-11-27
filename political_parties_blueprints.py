@@ -7,7 +7,7 @@ data_confing = load_file_config()
 url_base = data_confing.get('url_backend-academic') + "/political_parties"
 
 
-@political_parties_blueprints.route("/political_parties", methods=['GET'])
+@political_parties_blueprints.route("/political_partiess", methods=['GET'])
 def get_all_political_parties() -> dict:
     url = url_base + "/all"
     response = requests.get(url, headers=HEADERS)

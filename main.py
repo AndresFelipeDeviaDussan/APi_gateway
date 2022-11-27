@@ -38,6 +38,10 @@ def before_request_callback():
         user = get_jwt_identity()
         if user.get('rol'):
             has_grant = utils.validate_grant(endpoint, request.method, user['rol'].get('idRol'))
+            print(user)
+            print(endpoint)
+            print(request)
+            print(user['rol'].get('idRol'))
             if not has_grant:
                 return {"message": "Permission denied."}, 401
         else:
@@ -57,6 +61,7 @@ def login() -> tuple:
     response = requests.post(url, headers=utils.HEADERS, json=user)
     if response.status_code == 200:
         user_logged = response.json()
+        del user_logged['rol']['permissions']
         expires = timedelta(days=1)
         access_token = create_access_token(identity=user_logged, expires_delta=expires)
         return {"token": access_token, "user_id": user_logged.get('id')},200
